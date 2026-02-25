@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard – Enthu Tech IoT</title>
+    <meta name="description"
+        content="Enthu Tech IoT Dashboard – Real-time monitoring, device management, and smart automation." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand-logo">
+                <div class="logo-icon">
+                    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="6" fill="#fff" />
+                        <circle cx="16" cy="4" r="2.5" fill="#fff" opacity="0.7" />
+                        <circle cx="28" cy="10" r="2.5" fill="#fff" opacity="0.7" />
+                        <circle cx="28" cy="22" r="2.5" fill="#fff" opacity="0.7" />
+                        <circle cx="16" cy="28" r="2.5" fill="#fff" opacity="0.7" />
+                        <circle cx="4" cy="22" r="2.5" fill="#fff" opacity="0.7" />
+                        <circle cx="4" cy="10" r="2.5" fill="#fff" opacity="0.7" />
+                    </svg>
+                </div>
+                <span class="brand-name">Enthu<span>Tech</span></span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Project Selector -->
+        <div class="project-selector">
+            <div class="project-current">
+                <div class="project-icon">🏠</div>
+                <div class="project-info">
+                    <span class="project-name">Smart Home Hub</span>
+                    <span class="project-id">ID: ETH-00142</span>
+                </div>
+                <svg class="project-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Nav -->
+        <nav class="sidebar-nav">
+            <div class="nav-group">
+                <span class="nav-group-label">Main</span>
+                <a href="#" class="nav-item active" onclick="setPage('dashboard', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" />
+                            <rect x="14" y="3" width="7" height="7" />
+                            <rect x="14" y="14" width="7" height="7" />
+                            <rect x="3" y="14" width="7" height="7" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Dashboard</span>
+                    <span class="nav-badge live">LIVE</span>
+                </a>
+                <a href="#" class="nav-item" onclick="setPage('devices', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                            <line x1="12" y1="18" x2="12.01" y2="18" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Devices</span>
+                    <span class="nav-count">8</span>
+                </a>
+                <a href="#" class="nav-item" onclick="setPage('analytics', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                            <line x1="6" y1="20" x2="6" y2="14" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Analytics</span>
+                </a>
+                <a href="#" class="nav-item" onclick="setPage('automations', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Automations</span>
+                    <span class="nav-count">3</span>
+                </a>
+            </div>
+
+            <div class="nav-group">
+                <span class="nav-group-label">Management</span>
+                <a href="#" class="nav-item" onclick="setPage('alerts', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Alerts</span>
+                    <span class="nav-alert">2</span>
+                </a>
+                <a href="#" class="nav-item" onclick="setPage('datalog', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Data Log</span>
+                </a>
+                <a href="#" class="nav-item" onclick="setPage('team', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Team</span>
+                </a>
+                <a href="#" class="nav-item" onclick="setPage('settings', this)">
+                    <span class="nav-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </span>
+                    <span class="nav-label">Settings</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+            <div class="sidebar-status">
+                <span class="status-dot"></span>
+                <div>
+                    <div class="status-text">All Systems Online</div>
+                    <div class="status-sub">Last sync: Just now</div>
+                </div>
+            </div>
+            <div class="user-mini">
+                <div class="user-avatar">JD</div>
+                <div class="user-info">
+                    <span class="user-name">John Doe</span>
+                    <span class="user-role">Admin</span>
+                </div>
+                <a href="index.html" class="logout-btn" title="Logout">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrap" id="mainWrap">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-btn" onclick="openSidebar()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <div class="page-breadcrumb">
+                    <span class="breadcrumb-main" id="pageTitle">Dashboard</span>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-sub">Smart Home Hub</span>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-clock" id="topbarClock">11:48 AM</div>
+                <button class="topbar-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                </button>
+                <button class="topbar-btn notif-btn" id="notifBtn" onclick="toggleNotif()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    <span class="notif-badge">2</span>
+                </button>
+                <div class="user-avatar-top">JD</div>
+            </div>
+
+            <!-- Notifications Dropdown -->
+            <div class="notif-panel hidden" id="notifPanel">
+                <div class="notif-header">
+                    <span>Notifications</span>
+                    <button onclick="markAllRead()">Mark all read</button>
+                </div>
+                <div class="notif-list">
+                    <div class="notif-item unread">
+                        <div class="notif-icon temp">🌡️</div>
+                        <div class="notif-content">
+                            <p>Temperature exceeded <strong>35°C</strong> on Node-3</p>
+                            <span>2 min ago</span>
+                        </div>
+                    </div>
+                    <div class="notif-item unread">
+                        <div class="notif-icon power">⚡</div>
+                        <div class="notif-content">
+                            <p>High power draw detected on <strong>AC Unit</strong></p>
+                            <span>15 min ago</span>
+                        </div>
+                    </div>
+                    <div class="notif-item">
+                        <div class="notif-icon ok">✅</div>
+                        <div class="notif-content">
+                            <p><strong>Garage Sensor</strong> came back online</p>
+                            <span>1 hour ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========= PAGES ========= -->
+
+        <!-- Dashboard Page -->
+        <div class="page active" id="page-dashboard">
+            <div class="page-content">
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="sc-icon sc-blue">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="5" y="2" width="14" height="20" rx="2" />
+                                <line x1="12" y1="18" x2="12.01" y2="18" />
+                            </svg>
+                        </div>
+                        <div class="sc-info">
+                            <span class="sc-label">Total Devices</span>
+                            <span class="sc-value">8</span>
+                        </div>
+                        <div class="sc-change positive">+2 this week</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="sc-icon sc-green">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                        </div>
+                        <div class="sc-info">
+                            <span class="sc-label">Online Devices</span>
+                            <span class="sc-value" id="onlineCount">7</span>
+                        </div>
+                        <div class="sc-change positive">87.5% uptime</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="sc-icon sc-orange">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                            </svg>
+                        </div>
+                        <div class="sc-info">
+                            <span class="sc-label">Data Points (24h)</span>
+                            <span class="sc-value">124K</span>
+                        </div>
+                        <div class="sc-change positive">↑ 18% vs yesterday</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="sc-icon sc-red">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                <line x1="12" y1="9" x2="12" y2="13" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                        </div>
+                        <div class="sc-info">
+                            <span class="sc-label">Active Alerts</span>
+                            <span class="sc-value">2</span>
+                        </div>
+                        <div class="sc-change negative">Needs attention</div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="dashboard-grid">
+
+                    <!-- Chart: Temperature + Humidity -->
+                    <div class="widget widget-chart-main">
+                        <div class="widget-header">
+                            <div>
+                                <h3 class="widget-title">Temperature & Humidity</h3>
+                                <p class="widget-subtitle">Last 24 hours – Node Cluster A</p>
+                            </div>
+                            <div class="widget-controls">
+                                <button class="time-btn active" onclick="setChartRange(this, 'day')">Day</button>
+                                <button class="time-btn" onclick="setChartRange(this, 'week')">Week</button>
+                                <button class="time-btn" onclick="setChartRange(this, 'month')">Month</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrap">
+                            <canvas id="mainChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Gauges -->
+                    <div class="widget widget-gauges">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Live Readings</h3>
+                            <span class="live-badge">● LIVE</span>
+                        </div>
+                        <div class="gauges-grid">
+                            <div class="gauge-item">
+                                <canvas id="tempGauge" width="130" height="80"></canvas>
+                                <div class="gauge-value" id="gaugeTemp">28.4°C</div>
+                                <div class="gauge-label">Temperature</div>
+                            </div>
+                            <div class="gauge-item">
+                                <canvas id="humidGauge" width="130" height="80"></canvas>
+                                <div class="gauge-value" id="gaugeHumid">62%</div>
+                                <div class="gauge-label">Humidity</div>
+                            </div>
+                            <div class="gauge-item">
+                                <canvas id="powerGauge" width="130" height="80"></canvas>
+                                <div class="gauge-value" id="gaugePower">3.2 kW</div>
+                                <div class="gauge-label">Power</div>
+                            </div>
+                            <div class="gauge-item">
+                                <canvas id="airGauge" width="130" height="80"></canvas>
+                                <div class="gauge-value" id="gaugeAir">Good</div>
+                                <div class="gauge-label">Air Quality</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Device List -->
+                    <div class="widget widget-devices">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Devices</h3>
+                            <a href="#" class="widget-link" onclick="setPage('devices', null)">View All →</a>
+                        </div>
+                        <div class="device-list" id="deviceList"></div>
+                    </div>
+
+                    <!-- Power Chart -->
+                    <div class="widget widget-power-chart">
+                        <div class="widget-header">
+                            <div>
+                                <h3 class="widget-title">Power Consumption</h3>
+                                <p class="widget-subtitle">Real-time (kWh)</p>
+                            </div>
+                            <div class="power-total">
+                                <span class="power-val" id="powerTotal">3.2</span>
+                                <span class="power-unit">kW now</span>
+                            </div>
+                        </div>
+                        <div class="chart-wrap" style="height:120px">
+                            <canvas id="powerChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Map / Location Widget -->
+                    <div class="widget widget-map">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Device Locations</h3>
+                            <span class="widget-badge">8 active</span>
+                        </div>
+                        <div class="map-container" id="mapContainer">
+                            <div class="map-bg">
+                                <div class="map-grid"></div>
+                                <!-- Device blips -->
+                                <div class="blip" style="left:30%;top:40%;" title="Living Room">
+                                    <div class="blip-dot green"></div>
+                                    <div class="blip-ring"></div>
+                                    <div class="blip-label">Living Room</div>
+                                </div>
+                                <div class="blip" style="left:60%;top:25%;" title="Kitchen">
+                                    <div class="blip-dot green"></div>
+                                    <div class="blip-ring"></div>
+                                    <div class="blip-label">Kitchen</div>
+                                </div>
+                                <div class="blip" style="left:75%;top:60%;" title="Bedroom">
+                                    <div class="blip-dot blue"></div>
+                                    <div class="blip-ring ring-blue"></div>
+                                    <div class="blip-label">Bedroom</div>
+                                </div>
+                                <div class="blip" style="left:20%;top:70%;" title="Garage">
+                                    <div class="blip-dot orange"></div>
+                                    <div class="blip-ring ring-orange"></div>
+                                    <div class="blip-label">Garage</div>
+                                </div>
+                                <div class="blip" style="left:50%;top:65%;" title="Garden">
+                                    <div class="blip-dot green"></div>
+                                    <div class="blip-ring"></div>
+                                    <div class="blip-label">Garden</div>
+                                </div>
+                                <div class="blip" style="left:85%;top:40%;" title="Office">
+                                    <div class="blip-dot green"></div>
+                                    <div class="blip-ring"></div>
+                                    <div class="blip-label">Office</div>
+                                </div>
+                                <div class="blip" style="left:42%;top:18%;" title="Rooftop">
+                                    <div class="blip-dot purple"></div>
+                                    <div class="blip-ring ring-purple"></div>
+                                    <div class="blip-label">Rooftop</div>
+                                </div>
+                                <div class="blip" style="left:10%;top:25%;" title="Entrance">
+                                    <div class="blip-dot green"></div>
+                                    <div class="blip-ring"></div>
+                                    <div class="blip-label">Entrance</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Controls -->
+                    <div class="widget widget-controls">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Quick Controls</h3>
+                        </div>
+                        <div class="controls-grid" id="quickControls"></div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="widget widget-activity">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Recent Activity</h3>
+                            <a href="#" class="widget-link">View Log →</a>
+                        </div>
+                        <div class="activity-list" id="activityList"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Devices Page -->
+        <div class="page" id="page-devices">
+            <div class="page-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-h1">Devices</h1>
+                        <p class="page-desc">Manage all connected IoT devices</p>
+                    </div>
+                    <button class="btn-add" onclick="showAddDevice()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        Add Device
+                    </button>
+                </div>
+
+                <div class="device-filters">
+                    <button class="filter-btn active" onclick="filterDevices('all', this)">All (8)</button>
+                    <button class="filter-btn" onclick="filterDevices('online', this)">Online (7)</button>
+                    <button class="filter-btn" onclick="filterDevices('offline', this)">Offline (1)</button>
+                    <button class="filter-btn" onclick="filterDevices('sensor', this)">Sensors</button>
+                    <button class="filter-btn" onclick="filterDevices('actuator', this)">Actuators</button>
+                </div>
+
+                <div class="devices-grid" id="devicesGrid"></div>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div class="page" id="page-analytics">
+            <div class="page-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-h1">Analytics</h1>
+                        <p class="page-desc">Detailed insights from your IoT network</p>
+                    </div>
+                    <button class="btn-secondary">Export CSV</button>
+                </div>
+                <div class="analytics-grid">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Weekly Temperature Trend</h3>
+                        </div>
+                        <div class="chart-wrap" style="height:240px">
+                            <canvas id="analyticsTempChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Humidity Distribution</h3>
+                        </div>
+                        <div class="chart-wrap" style="height:240px">
+                            <canvas id="analyticsHumidChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Device Activity (7 days)</h3>
+                        </div>
+                        <div class="chart-wrap" style="height:240px">
+                            <canvas id="analyticsActivityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Power Usage by Room</h3>
+                        </div>
+                        <div class="chart-wrap" style="height:240px">
+                            <canvas id="analyticsPowerChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Automations Page -->
+        <div class="page" id="page-automations">
+            <div class="page-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-h1">Automations</h1>
+                        <p class="page-desc">Smart rules that work for you</p>
+                    </div>
+                    <button class="btn-add">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        New Rule
+                    </button>
+                </div>
+                <div class="automations-list" id="automationsList"></div>
+            </div>
+        </div>
+
+        <!-- Alerts Page -->
+        <div class="page" id="page-alerts">
+            <div class="page-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-h1">Alerts</h1>
+                        <p class="page-desc">System notifications and warnings</p>
+                    </div>
+                </div>
+                <div class="alerts-list" id="alertsList"></div>
+            </div>
+        </div>
+
+        <!-- Data Log / Settings / Team pages -->
+        <div class="page" id="page-datalog">
+            <div class="page-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-h1">Data Log</h1>
+                        <p class="page-desc">Raw sensor data records</p>
+                    </div><button class="btn-secondary">Export</button>
+                </div>
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3 class="widget-title">Sensor Readings</h3>
+                    </div>
+                    <div class="datalog-table-wrap">
+                        <table class="datalog-table" id="datalogTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-team">
+            <div class="page-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-h1">Team</h1>
+                        <p class="page-desc">Manage your team members</p>
+                    </div><button class="btn-add"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>Invite</button>
+                </div>
+                <div class="team-grid" id="teamGrid"></div>
+            </div>
+        </div>
+
+        <div class="page" id="page-settings">
+            <div class="page-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-h1">Settings</h1>
+                        <p class="page-desc">Platform configuration</p>
+                    </div>
+                </div>
+                <div class="settings-grid" id="settingsGrid"></div>
+            </div>
+        </div>
+
+    </div><!-- /main-wrap -->
+
+    <!-- Overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- Add Device Modal -->
+    <div class="modal-overlay hidden" id="addDeviceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Device</h3>
+                <button onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Device Name</label>
+                    <div class="input-wrap"><input type="text" class="form-input" placeholder="e.g. Kitchen Sensor" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Device Type</label>
+                    <select class="form-input" style="padding-left:14px">
+                        <option>Temperature Sensor</option>
+                        <option>Humidity Sensor</option>
+                        <option>Motion Detector</option>
+                        <option>Power Monitor</option>
+                        <option>Smart Switch</option>
+                        <option>Air Quality Sensor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <div class="input-wrap"><input type="text" class="form-input" placeholder="e.g. Living Room" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Auth Token (auto-generated)</label>
+                    <div class="input-wrap">
+                        <input type="text" class="form-input" value="ET-a4f2c91b3d8e" readonly
+                            style="padding-left:14px; color: var(--accent-purple);" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn-add" onclick="closeModal()">Add Device</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

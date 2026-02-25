@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enthu Tech – IoT Platform</title>
+  <meta name="description" content="Enthu Tech IoT Platform – Connect, Monitor and Control your devices in real-time from anywhere in the world." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="welcome.css" />
+</head>
+<body class="welcome-body">
+
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <!-- Grid overlay -->
+  <div class="grid-overlay"></div>
+
+  <!-- Main Container -->
+  <div class="welcome-container">
+
+    <!-- Left Panel -->
+    <div class="welcome-left">
+      <div class="brand-logo">
+        <div class="logo-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="6" fill="#6C63FF"/>
+            <circle cx="16" cy="4" r="3" fill="#00D4FF" opacity="0.8"/>
+            <circle cx="28" cy="10" r="3" fill="#00D4FF" opacity="0.8"/>
+            <circle cx="28" cy="22" r="3" fill="#00D4FF" opacity="0.8"/>
+            <circle cx="16" cy="28" r="3" fill="#00D4FF" opacity="0.8"/>
+            <circle cx="4" cy="22" r="3" fill="#00D4FF" opacity="0.8"/>
+            <circle cx="4" cy="10" r="3" fill="#00D4FF" opacity="0.8"/>
+            <line x1="16" y1="10" x2="16" y2="4" stroke="#6C63FF" stroke-width="1.5" opacity="0.6"/>
+            <line x1="16" y1="10" x2="25.2" y2="7" stroke="#6C63FF" stroke-width="1.5" opacity="0.6"/>
+            <line x1="21.2" y1="16" x2="28" y2="22" stroke="#6C63FF" stroke-width="1.5" opacity="0.6"/>
+            <line x1="16" y1="22" x2="16" y2="28" stroke="#6C63FF" stroke-width="1.5" opacity="0.6"/>
+            <line x1="10.8" y1="16" x2="4" y2="22" stroke="#6C63FF" stroke-width="1.5" opacity="0.6"/>
+            <line x1="6.8" y1="10" x2="16" y2="10" stroke="#6C63FF" stroke-width="1.5" opacity="0.6"/>
+          </svg>
+        </div>
+        <span class="brand-name">Enthu<span>Tech</span></span>
+      </div>
+
+      <div class="welcome-hero">
+        <h1 class="hero-title">
+          Connect. Monitor.<br/>
+          <span class="gradient-text">Control Everything.</span>
+        </h1>
+        <p class="hero-subtitle">
+          A powerful IoT platform to manage all your connected devices, analyze real-time data, and automate your world — all from one place.
+        </p>
+
+        <div class="feature-pills">
+          <div class="pill">
+            <span class="pill-dot pulse-green"></span>
+            Real-time Monitoring
+          </div>
+          <div class="pill">
+            <span class="pill-dot pulse-blue"></span>
+            Device Management
+          </div>
+          <div class="pill">
+            <span class="pill-dot pulse-purple"></span>
+            Smart Automation
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-number" id="counterDevices">0</span>
+          <span class="stat-label">Devices</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" id="counterUsers">0</span>
+          <span class="stat-label">Users</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" id="counterUptime">99.9%</span>
+          <span class="stat-label">Uptime</span>
+        </div>
+      </div>
+
+      <!-- Device Preview Cards -->
+      <div class="preview-cards">
+        <div class="preview-card card-temp">
+          <div class="preview-card-icon">🌡️</div>
+          <div class="preview-card-info">
+            <span class="preview-card-label">Temperature</span>
+            <span class="preview-card-value" id="liveTemp">28.4°C</span>
+          </div>
+          <div class="preview-card-badge online">LIVE</div>
+        </div>
+        <div class="preview-card card-humid">
+          <div class="preview-card-icon">💧</div>
+          <div class="preview-card-info">
+            <span class="preview-card-label">Humidity</span>
+            <span class="preview-card-value" id="liveHumid">62%</span>
+          </div>
+          <div class="preview-card-badge online">LIVE</div>
+        </div>
+        <div class="preview-card card-power">
+          <div class="preview-card-icon">⚡</div>
+          <div class="preview-card-info">
+            <span class="preview-card-label">Power Usage</span>
+            <span class="preview-card-value" id="livePower">3.2 kW</span>
+          </div>
+          <div class="preview-card-badge online">LIVE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel – Auth -->
+    <div class="welcome-right">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
+          <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+          <h2 class="auth-title">Welcome back</h2>
+          <p class="auth-subtitle">Sign in to your Enthu Tech account</p>
+
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input type="email" id="loginEmail" class="form-input" placeholder="you@enthutechiot.com" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required />
+              <button type="button" class="toggle-password" onclick="togglePass('loginPassword', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-primary" id="loginBtn">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-loader hidden"></span>
+          </button>
+
+          <div class="auth-divider"><span>or continue with</span></div>
+
+          <div class="social-btns">
+            <button type="button" class="social-btn" onclick="handleDemoLogin()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              Demo Mode
+            </button>
+            <button type="button" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </button>
+          </div>
+        </form>
+
+        <!-- Register Form -->
+        <form class="auth-form hidden" id="registerForm" onsubmit="handleRegister(event)">
+          <h2 class="auth-title">Create account</h2>
+          <p class="auth-subtitle">Start your IoT journey with Enthu Tech</p>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <div class="input-wrap">
+                <input type="text" class="form-input" placeholder="John" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <div class="input-wrap">
+                <input type="text" class="form-input" placeholder="Doe" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input type="email" class="form-input" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input type="password" class="form-input" placeholder="Min. 8 characters" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Organization (Optional)</label>
+            <div class="input-wrap">
+              <input type="text" class="form-input" placeholder="Your company or project" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            Create Account
+          </button>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="welcome.js"></script>
+</body>
+</html>
